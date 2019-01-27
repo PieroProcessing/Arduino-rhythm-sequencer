@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include <uClock.h>
+//#include <uClock.h>
 
 /* port multiplexer */
 uint8_t s0 = 5;
@@ -8,6 +8,7 @@ uint8_t s2 = 7;
 /* output multiplexer*/
 const uint8_t buttonPin = 4;
 /* encoder */
+
 uint8_t CLK = 3; //CLK
 uint8_t DT = 2; // DT
 volatile int16_t lastEncoded  = 0;
@@ -44,20 +45,30 @@ uint8_t check;
 void setup()
 {
 
-  // Initialize serial communication at 31250 bits per second, the default MIDI serial speed communication:
+
   Serial.begin(9600);
 
   initPin();
-  clockInit();
-
-  uClock.start();
+//  clockInit();
+  attachInterrupt(0, updateEncoder, CHANGE);
+  attachInterrupt(1, updateEncoder, CHANGE);
+  //  uClock.start();
 
 }
+char cstr[16];
+int count = 0;
 
-// Do it whatever to interface with Clock.stop(), Clock.start(), Clock.setTempo() and integrate your environment...
 void loop()
 {
-  //  if (volt)
-  //    Serial.println(volt);
-
+//  updateEncoder();
+//  itoa(encoderValue, cstr, 16);
+    Serial.println("encoderValue: " + String(encoderValue) );
+//  const char* foo = "tempo: ";
+//  const char* test = cstr;
+//
+//  char* full_text;
+//  full_text = malloc(strlen(foo) + strlen(test) + 1);
+//  strcpy(full_text, foo );
+//  strcat(full_text, test);
+//  LCDPrint(0, cstr);
 }
