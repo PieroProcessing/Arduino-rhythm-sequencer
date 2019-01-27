@@ -1,6 +1,4 @@
-#include "Arduino.h"
-//#include <uClock.h>
-
+#include <uClock.h>
 /* port multiplexer */
 uint8_t s0 = 5;
 uint8_t s1 = 6;
@@ -8,7 +6,6 @@ uint8_t s2 = 7;
 /* output multiplexer*/
 const uint8_t buttonPin = 4;
 /* encoder */
-
 uint8_t CLK = 3; //CLK
 uint8_t DT = 2; // DT
 volatile int16_t lastEncoded  = 0;
@@ -42,33 +39,25 @@ uint8_t led = 13;
 uint8_t steps = 0;
 uint8_t check;
 
-void setup()
-{
-
-
+void setup() {
   Serial.begin(9600);
-
-  initPin();
-//  clockInit();
-  attachInterrupt(0, updateEncoder, CHANGE);
-  attachInterrupt(1, updateEncoder, CHANGE);
-  //  uClock.start();
-
+  UIXinit();
 }
-char cstr[16];
-int count = 0;
+void loop() {
+  for (uint8_t port = 0; port < 8; port++) {
+    setPlexer(port);
+    buttonState =   digitalRead(buttonPin);//1 & (PIND >> 2);
+    if (buttonState && prevState[port] != buttonState) {
+//      char cstr[16];
+//      itoa(port, cstr, 10);
+//      LCDPrint(0, "port:");
+//      LCDPrint(1, cstr);
+      prevState[port] = buttonState;
+      delay(1);
+    }
+    if (buttonState != prevState[port]) prevState[port] = buttonState;
+  }
+    updateEncoder();
+  Serial.println("encoderValue: " + String(encoderValue) );
 
-void loop()
-{
-//  updateEncoder();
-//  itoa(encoderValue, cstr, 16);
-    Serial.println("encoderValue: " + String(encoderValue) );
-//  const char* foo = "tempo: ";
-//  const char* test = cstr;
-//
-//  char* full_text;
-//  full_text = malloc(strlen(foo) + strlen(test) + 1);
-//  strcpy(full_text, foo );
-//  strcat(full_text, test);
-//  LCDPrint(0, cstr);
 }

@@ -15,16 +15,11 @@ void updateEncoder() {
   int sum  = (lastEncoded << 2) | encoded; //adding it to the previous encoded value
 
   if (sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) encoderValue ++;
-  if (sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) encoderValue ++;
+  if (sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) encoderValue --;
 
   lastEncoded = encoded; //store this value for next time
 }
-
-//=============================================================
-//             Send Data or Command to LCD
-//=============================================================
-void LCDSendByte(char d,char RS)
-{
+ void LCDSendByte(char d,char RS){
   char dH,dL,temp;
   //Keep Data on upper nybble
   dH = d & 0xF0;         //Get MSB
@@ -47,7 +42,6 @@ void LCDSendByte(char d,char RS)
   temp=dL | RS;  //MSB With RS bit
   ShiftData(temp);  
 }
-//=============================================
 void ShiftData(char temp)
 {
   int i;
@@ -67,11 +61,7 @@ void ShiftData(char temp)
   delay(1);
   digitalWrite(Latch,HIGH);        
 }
-//=================================================================
-//           LCD Display Initialization Function
-//=================================================================
-void LCDinit()
-{
+void LCDinit(){
   int count;
   char t[]={0x43,0x03,0x03,0x02,0x28,0x01,0x0C,0x06,0x02,0x02};    
       for (count = 0; count <= 9; count++)
@@ -79,11 +69,7 @@ void LCDinit()
         LCDSendByte(t[count],0);    //Command RS=0
       }
 }
-//=================================================================
-//        Display Line on LCD at desired location Function
-//=================================================================
-void LCDPrint(char Line,char string[16])
-{
+ void LCDPrint(char Line,char string[16]){
  int len,count;
  if(Line==0) {
    LCDSendByte(0x80,0);    //Command RS=0 Move Cursor to Home   
@@ -97,4 +83,3 @@ void LCDPrint(char Line,char string[16])
      LCDSendByte(string[count],1);  //Data RS=1
   }
 }
-//=================================================================
