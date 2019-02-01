@@ -13,18 +13,7 @@ void testEncoderValue() {
       break;
   }
 }
-void printMenu() {
-  lcd.setCursor(0, 0);
-  lcd.print("S:");
-  lcd.setCursor(8, 0);
-  lcd.print("C:");
-  lcd.setCursor(0, 1);
-  lcd.print("N:");
-  lcd.setCursor(4, 1);
-  lcd.print("L:");
-  lcd.setCursor(9, 1);
-  lcd.print("D:");
-}
+
 void setPlexer( uint8_t count) {
   uint8_t r0 = bitRead(count, 0);
   uint8_t r1 = bitRead(count, 1);
