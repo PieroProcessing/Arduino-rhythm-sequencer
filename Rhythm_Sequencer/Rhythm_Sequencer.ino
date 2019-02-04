@@ -56,7 +56,7 @@ String note_tempo [] = {
 String getNoteTempoName ( int8_t *value) {
   (*value) %= 9;
   if ((*value) < 0) (*value) = 0;
-//  Serial.println( "get NoteTempo: "+String(*value));
+  //  Serial.println( "get NoteTempo: "+String(*value));
   if ( (*value) <= 1) {
     (*value) = 1;
     return note_tempo[0];
@@ -79,23 +79,35 @@ String getNoteTempoName ( int8_t *value) {
 String getType (int8_t *value) {
   (*value) %= 2;
   if ((*value) < 0) (*value) = 0;
-//  Serial.println( "get type: "+String(*value));
-  if ((*value) == 0) {(*value) = 0;return "R";}
-  else if ((*value) == 1) {(*value) = 1;return "N";}
+  //  Serial.println( "get type: "+String(*value));
+  if ((*value) == 0) {
+    (*value) = 0;
+    return "R";
+  }
+  else if ((*value) == 1) {
+    (*value) = 1;
+    return "N";
+  }
 }
 String getBond (int8_t *value) {
   (*value) %= 2;
   if ((*value) < 0) (*value) = 0;
-//  Serial.println( "get type: "+String(*value));
-  if ((*value) == 0) {(*value) = 0;return "OF";}
-  else if ((*value) == 1) {(*value) = 1;return "ON";}
+  //  Serial.println( "get type: "+String(*value));
+  if ((*value) == 0) {
+    (*value) = 0;
+    return "OF";
+  }
+  else if ((*value) == 1) {
+    (*value) = 1;
+    return "ON";
+  }
 }
 /* maybe uint32_t */
 uint8_t lengths[256] = {3, 5, 1, 3, 2, 2, 3, 1, 3, 1, 8, 8};
 uint8_t note[256]    = {1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1};
 uint8_t legato[256]  = {1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1};
 
-uint8_t cicle = 0;
+uint8_t cicle = 12;
 uint8_t led = 13;
 //uint8_t pulse = 0;
 uint8_t steps = 0;
@@ -127,6 +139,12 @@ void loop() {
           if (cursorPosition > Num_Options) cursorPosition = 0;
           if (cursorPosition > Change_Line  ) linePosition = 1;
           else  linePosition = 0;
+          break;
+        case 4:
+          uClock.start();
+          break;
+        case 5:
+          uClock.stop();
           break;
       }
       prevState[port] = buttonState;
@@ -166,7 +184,7 @@ void loop() {
   else
     s = String(*encoderValue)  + " " ;
 
-  Serial.println( "get value: "+ s);
+  Serial.println( "get value: " + s);
   lcd.print(s);
 
 }
